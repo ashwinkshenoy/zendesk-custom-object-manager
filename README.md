@@ -28,7 +28,7 @@
 
 ## Installation
 
-⚡️ Download this repository as ZIP and install in your Zendesk Instance.
+⚡️ Download this repository as ZIP and install in your Zendesk Instance.<br>
 🚀 It's That Simple.
 
 <br>
