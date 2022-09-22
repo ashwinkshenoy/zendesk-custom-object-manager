@@ -1,0 +1,344 @@
+const template = `
+<div>  
+  <!--Delete Record Modal-->
+  <vs-modal
+    ref="deleteModal"
+    size="s"
+    dismiss-on="close-button esc"
+    remove-header
+    remove-close-button
+    align-top>
+    <div class="u-ta-center modal-content">
+      <img src="./images/IconDelete.svg" alt="Trash" class="modal-img">
+      <h1>Are you sure you want to delete?</h1>
+      <p class="u-mb">You can't undo this action.</p>
+      <vs-button class="u-mr-sm" size="small" @click="closeModal('deleteModal')">Cancel</vs-button>
+      <vs-button
+        fill
+        size="small"
+        @click="confirmDelete(currentRecord)"
+        :disabled="modalButtonDisabled">
+        Confirm
+      </vs-button>
+    </div>
+  </vs-modal>
+  
+  <!--Clone Record Modal-->
+  <vs-modal
+    ref="cloneModal"
+    size="s"
+    dismiss-on="close-button esc"
+    remove-header
+    remove-close-button
+    align-top>
+    <div class="u-ta-center modal-content">
+      <img src="./images/IconCopy.svg" alt="Clone" class="modal-img">
+      <h1 class="u-mb">Are you sure you want to clone?</h1>
+      <vs-button class="u-mr-sm" size="small" @click="closeModal('cloneModal')">Cancel</vs-button>
+      <vs-button 
+        fill 
+        size="small" 
+        @click="confirmClone(currentRecord)" 
+        :disabled="modalButtonDisabled">
+        Confirm
+      </vs-button>
+    </div>
+  </vs-modal>
+
+  <table class="c-table u-mb-sm">
+    <thead>
+      <tr class="c-table__row c-table__row--header">
+        <td class="c-table__row__cell">Created</td>
+        <td
+          class="c-table__row__cell"
+          v-for="(field, key, index) in schema"
+          :key="index"
+          :data-index="index"
+          :colspan="schemaLength - 1 === index ? 2 : 1">
+          {{ key | filterName }}
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-if="objectTableState==='Loading'">
+        <td :colspan="schemaLength+2" class="u-ta-center">
+          <vs-loader class="u-p" center></vs-loader>
+        </td>
+      </tr>
+
+      <tr v-if="objectTableState==='NoData'">
+        <td :colspan="schemaLength+2" class="u-ta-center u-p">
+          <div>No Records Found</div>
+        </td>
+      </tr>
+
+      <tr v-if="objectTableState==='ApiError'">
+        <td :colspan="schemaLength+2" class="u-ta-center u-p">
+          API Error Occured
+        </td>
+      </tr>
+
+      <template v-if="objectTableState==='DataFound'">
+        <tr
+          :class="[
+            'c-table__row',
+            {'is-active': currentRecord.id === record.id},
+            {'is-disabled': record.attributes?.is_disabled}
+          ]"
+          v-for="record in objectRecords" 
+          :key="record.id">
+          <td class="c-table__row__cell">{{ record.created_at | formatDate }}</td>
+          <template v-for="(field, key, index) in schema">
+            <td class="c-table__row__cell" :key="index+'_record'">{{ record.attributes[key] || '---' }}</td>
+          </template>
+          <td class="c-table__row__cell action-cell">
+            <action-item
+              class="btn-svg-table"
+              :options="actionItemOptions"
+              :item="record"
+              @change="handleActionItemChange">
+            ></action-item>
+          </td>
+        </tr>
+      </template>
+    </tbody>
+  </table>
+
+  <!--Pagination-->
+  <template v-if="objectTableState === 'DataFound'">
+    <div class="u-ta-center u-mb" v-if="objectCursor.previous || objectCursor.next">
+      <vs-button
+        size="small"
+        class="u-mv u-mr-sm width-100"
+        :disabled="!objectCursor.previous"
+        @click="changePage('previous')">
+        {{ $t('button.previous') }}
+      </vs-button>
+      <vs-button
+        size="small"
+        class="u-mv width-100"
+        :disabled="!objectCursor.next"
+        @click="changePage('next')">
+        {{ $t('button.next') }}
+      </vs-button>
+    </div>
+  </template>
+</div>
+`;
+
+import ActionItem from '../Common/ActionItem.js';
+import ZDClient from '../../services/ZDClient.js';
+
+const RecordTable = {
+  template,
+
+  components: {
+    ActionItem,
+  },
+
+  data() {
+    return {
+      modalButtonDisabled: false,
+      actionItemOptions: [
+        {
+          label: 'Edit',
+          value: 'edit',
+        },
+        {
+          label: 'Clone',
+          value: 'clone',
+        },
+        {
+          label: 'Delete',
+          value: 'delete',
+        },
+      ],
+    };
+  },
+
+  computed: {
+    ...Vuex.mapGetters([
+      'objectTableState',
+      'schema',
+      'objectRecords',
+      'objectCursor',
+      'currentRecord',
+      'recordAction',
+      'searchText',
+      'selectedObjectType',
+    ]),
+
+    /**
+     * Get Schema Length
+     * @returns {Number}
+     */
+    schemaLength() {
+      return Object.keys(this.schema).length;
+    },
+  },
+
+  mounted() {
+    this.initTable();
+  },
+
+  filters: {
+    /**
+     * Converts string with '_' or '-' into space.
+     * @param {String} value
+     * @returns {String}
+     */
+    filterName(value) {
+      return value.replace(/[\-_]/g, ' ');
+    },
+
+    /**
+     * Formats date
+     * @param {Date} date
+     */
+    formatDate(date) {
+      if (!date) return date;
+      const today = new Date(date);
+      let dd = today.getDate();
+      const mm = today.getMonth() + 1;
+      const yyyy = today.getFullYear();
+      dd = dd < 10 ? `0${dd}` : dd;
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${monthNames[mm - 1]} ${dd}, ${yyyy}`;
+    },
+  },
+
+  methods: {
+    ...Vuex.mapActions(['setState', 'getObjectRecords', 'searchCO']),
+
+    /**
+     * Initialze Table
+     */
+    initTable() {
+      if (!this.searchText) {
+        this.getObjectRecords();
+        console.log('init get');
+      } else {
+        this.searchCO();
+        console.log('init search');
+      }
+    },
+
+    /**
+     * Pagination: Change page
+     * @param {String} value (previous/next key)
+     */
+    changePage(value) {
+      if (!this.searchText) {
+        this.getObjectRecords(this.objectCursor[value]);
+        return;
+      }
+      this.searchCO(this.objectCursor[value]);
+    },
+
+    /**
+     * Perform Action on action item selection
+     * @param {Object} actionItem
+     * @param {Object} item
+     */
+    handleActionItemChange(actionItem = {}, item = {}) {
+      console.log('---Record Action---\n', actionItem.value);
+      console.log('---Current Record---\n', item, '\n\n\n');
+      this.setState({ key: 'isObjectRecordForm', value: false });
+      this.setState({ key: 'recordAction', value: actionItem.value });
+      this.setState({ key: 'currentRecord', value: { ...item } });
+      if (this.recordAction === 'edit') {
+        this.setState({ key: 'isObjectRecordForm', value: true });
+      }
+      if (this.recordAction === 'delete') {
+        this.openModal('deleteModal');
+      }
+      if (this.recordAction === 'clone') {
+        this.openModal('cloneModal');
+      }
+      if (this.recordAction === 'disable') {
+        this.openModal('disableModal');
+      }
+    },
+
+    /**
+     * Open modal
+     * @param {String} ref
+     */
+    openModal(ref) {
+      this.$refs[ref].open();
+    },
+
+    /**
+     * Close modal & perform action
+     * @param {String} ref
+     */
+    closeModal(ref) {
+      this.$refs[ref].close();
+      this.modalButtonDisabled = false;
+      this.setState({ key: 'recordAction', value: 'new' });
+      this.setState({ key: 'currentRecord', value: {} });
+    },
+
+    /**
+     * Delete Record
+     * @param {Object} currentItem
+     */
+    async confirmDelete(currentItem) {
+      this.modalButtonDisabled = true;
+      try {
+        await ZDClient.customObject().delete(currentItem.id);
+        ZDClient.notify('notice', 'Deleted Record');
+      } catch (error) {
+        ZDClient.notify('error', error);
+      } finally {
+        this.closeModal('deleteModal');
+        this.setState({
+          key: 'objectCursor',
+          value: {
+            previous: null,
+            next: null,
+            current: null,
+          },
+        });
+        this.initTable();
+      }
+    },
+
+    /**
+     * Clone Record
+     * @param {Object} currentItem
+     */
+    async confirmClone(currentItem) {
+      this.modalButtonDisabled = true;
+      const payload = {
+        data: {
+          type: this.selectedObjectType,
+          attributes: { ...currentItem.attributes },
+        },
+      };
+      try {
+        const response = await ZDClient.customObject().create(payload);
+        if (response?.errors?.length) {
+          ZDClient.notify('error', response.responseJSON.errors?.[0].detail);
+          return;
+        }
+        ZDClient.notify('notice', 'Record Cloned');
+      } catch (error) {
+        ZDClient.notify('error', error);
+      } finally {
+        this.closeModal('cloneModal');
+        this.setState({
+          key: 'objectCursor',
+          value: {
+            previous: null,
+            next: null,
+            current: null,
+          },
+        });
+        this.initTable();
+      }
+    },
+  },
+};
+
+export default RecordTable;

@@ -1,0 +1,35 @@
+{
+  "name": "Custom Object Manager",
+  "version": "1.0.0",
+  "frameworkVersion": "2.0",
+  "author": {
+    "name": "Zendesk Professional Services",
+    "email": "services@zendesk.com",
+    "author": "Ashwin",
+    "url": "https://support.zendesk.com"
+  },
+  "defaultLocale": "en",
+  "private": true,
+  "location": {
+    "support": {
+      "nav_bar": "assets/iframe.html"
+    }
+  },
+  "parameters": [
+    {
+      "name": "IS_PRODUCTION",
+      "type": "hidden",
+      "default": "true"
+    },
+    {
+      "name": "showLogs",
+      "type": "checkbox",
+      "default": false
+    },
+    {
+      "name": "noOfRecords",
+      "type": "text",
+      "default": 10
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "app": {
+    "name": "Custom Object Manager",
+    "long_description": "Custom Object Manager",
+    "parameters": {
+      "showLogs": {
+        "label": "Show App Logs in Console"
+      },
+      "noOfRecords": {
+        "label": "Number of records per page"
+      }
+    }
+  }
+}
