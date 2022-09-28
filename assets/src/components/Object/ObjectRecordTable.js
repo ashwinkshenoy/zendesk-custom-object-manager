@@ -164,7 +164,6 @@ const ObjectRecordTable = {
   data() {
     return {
       modalButtonDisabled: false,
-      selectedColumns: [],
       actionItemOptions: [
         {
           label: 'Edit',
@@ -192,6 +191,7 @@ const ObjectRecordTable = {
       'recordAction',
       'searchText',
       'selectedObjectType',
+      'selectedColumns',
     ]),
 
     filteredColumns() {
@@ -280,25 +280,29 @@ const ObjectRecordTable = {
       if (this.filteredColumns === 1) {
         return;
       }
-      this.selectedColumns = columns;
+      this.setState({ key: 'selectedColumns', value: columns });
     },
 
     /**
      * Init columns selection
      */
     initSelectedColumns() {
-      this.selectedColumns = Object.entries(this.schema).map(([key, value], item) => {
+      console.log('mounted');
+      if (this.selectedColumns.length > 0) return;
+      const columns = Object.entries(this.schema).map(([key, value], item) => {
         return key;
       });
+      this.setState({ key: 'selectedColumns', value: columns });
     },
 
     /**
      * Reset columns selections
      */
     resetColumns() {
-      this.selectedColumns = Object.entries(this.schema).map(([key, value], item) => {
+      const columns = Object.entries(this.schema).map(([key, value], item) => {
         return key;
       });
+      this.setState({ key: 'selectedColumns', value: columns });
     },
 
     /**

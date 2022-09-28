@@ -110,6 +110,7 @@ const TypeSelection = {
         },
       });
       this.setState({ key: 'selectedObjectType', value });
+      this.setState({ key: 'selectedColumns', value: [] });
       this.getObjectRecords();
     },
 

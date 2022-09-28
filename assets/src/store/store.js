@@ -18,6 +18,7 @@ const Store = new Vuex.Store({
       next: null,
       current: null,
     },
+    selectedColumns: [],
 
     currentRecord: {},
     recordAction: 'new',
@@ -56,6 +57,7 @@ const Store = new Vuex.Store({
     objectRecords: state => state.objectRecords,
     objectCursor: state => state.objectCursor,
     searchText: state => state.searchText,
+    selectedColumns: state => state.selectedColumns,
 
     currentRecord: state => state.currentRecord,
     recordAction: state => state.recordAction,
