@@ -48,11 +48,13 @@ Copyright 2022.
 Licensed under the [`MIT License`](LICENSE).
 
 <br />
-Built with ❤️ by
-<a href="https://twitter.com/ashwinkshenoy">Ashwin Shenoy</a>
+<p>
+  Built with ❤️ by
+  <a href="https://twitter.com/ashwinkshenoy">Ashwin Shenoy</a>
+</p>
 
-<br />
-
-<a href="https://www.buymeacoffee.com/ashwinshenoy" target="_blank" class="u-mt">
-  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="width: 140px">
-</a>
+<p>
+  <a href="https://www.buymeacoffee.com/ashwinshenoy" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="margin-top: 20px;width: 140px">
+  </a>
+</p>
