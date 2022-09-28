@@ -13,7 +13,7 @@ const template = `
         <img src="./images/IconNotFound.svg" alt="No Records" class="empty-image">
         <div class="u-bold">No Custom Object Created</div>
         <p class="u-mt-xs">When you create an Object/Relationship, you'll see it here.</p>
-        <a href="https://www.buymeacoffee.com/ashwinshenoy" target="_blank" class="u-mt">
+        <a href="https://www.buymeacoffee.com/ashwinshenoy?utm_source=zd_custom_object" target="_blank" class="u-mt">
           <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="width: 140px">
         </a>
       </div>
@@ -50,7 +50,7 @@ const template = `
 
         <!--Buy Coffee-->
         <div class="u-mt-xxl u-ta-center">
-          <a href="https://www.buymeacoffee.com/ashwinshenoy" target="_blank">
+          <a href="https://www.buymeacoffee.com/ashwinshenoy?utm_source=zd_custom_object" target="_blank">
             <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="width: 140px">
           </a>
         </div>
