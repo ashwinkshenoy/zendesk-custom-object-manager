@@ -51,11 +51,32 @@ const template = `
         <td class="c-table__row__cell">Created</td>
         <td
           class="c-table__row__cell"
-          v-for="(field, key, index) in schema"
+          v-for="(name, index) in filteredColumns"
           :key="index"
-          :data-index="index"
-          :colspan="schemaLength - 1 === index ? 2 : 1">
-          {{ key | filterName }}
+          :data-index="index">
+          {{ name | filterName }}
+        </td>
+        <td class="c-table__row__cell u-ta-right">
+          <dropdown right offset="5, -10" class="table-column-selector">
+            <template v-slot:dropdown-trigger>
+              <garden-icon
+                icon="zd-cog"
+                name="settings"
+                class="u-fg-grey-600">
+              </garden-icon>
+            </template>
+            <template v-slot:dropdown-content>
+              <vs-multiselect
+                label="Select Columns"
+                :preselected="selectedColumns"
+                :options="filteredColumnOptions"
+                @change="setColumns"
+                is-compact
+                is-search>
+              </vs-multiselect>
+              <vs-button @click="resetColumns" size="small" class="u-mt-sm">Reset</vs-button>
+            </template>
+          </dropdown>
         </td>
       </tr>
     </thead>
@@ -88,8 +109,8 @@ const template = `
           v-for="record in objectRecords" 
           :key="record.id">
           <td class="c-table__row__cell">{{ record.created_at | formatDate }}</td>
-          <template v-for="(field, key, index) in schema">
-            <td class="c-table__row__cell" :key="index+'_record'">{{ record.attributes[key] || '---' }}</td>
+          <template v-for="(field, index) in filteredColumns">
+            <td class="c-table__row__cell" :key="index+'_record'">{{ record.attributes[field] || '---' }}</td>
           </template>
           <td class="c-table__row__cell action-cell">
             <action-item
@@ -127,18 +148,23 @@ const template = `
 `;
 
 import ActionItem from '../Common/ActionItem.js';
+import Dropdown from '../Common/Dropdown.js';
+import GardenIcon from '../Common/GardenIcon.js';
 import ZDClient from '../../services/ZDClient.js';
 
-const RecordTable = {
+const ObjectRecordTable = {
   template,
 
   components: {
     ActionItem,
+    Dropdown,
+    GardenIcon,
   },
 
   data() {
     return {
       modalButtonDisabled: false,
+      selectedColumns: [],
       actionItemOptions: [
         {
           label: 'Edit',
@@ -175,10 +201,31 @@ const RecordTable = {
     schemaLength() {
       return Object.keys(this.schema).length;
     },
+
+    filteredColumns() {
+      if (this.selectedColumns.length > 0) {
+        // return this.selectedColumns;
+        return Object.entries(this.schema)
+          .map(([key, value], item) => {
+            return this.selectedColumns.filter(item => item === key)?.[0];
+          })
+          .filter(Boolean);
+      }
+      return Object.entries(this.schema).map(([key, value], item) => {
+        return key;
+      });
+    },
+
+    filteredColumnOptions() {
+      return Object.entries(this.schema).map(([key, value], item) => {
+        return key;
+      });
+    },
   },
 
   mounted() {
     this.initTable();
+    this.initSelectedColumns();
   },
 
   filters: {
@@ -207,6 +254,16 @@ const RecordTable = {
     },
   },
 
+  watch: {
+    schema: {
+      immediate: false,
+      deep: true,
+      handler() {
+        this.initSelectedColumns();
+      },
+    },
+  },
+
   methods: {
     ...Vuex.mapActions(['setState', 'getObjectRecords', 'searchCO']),
 
@@ -216,11 +273,40 @@ const RecordTable = {
     initTable() {
       if (!this.searchText) {
         this.getObjectRecords();
-        console.log('init get');
       } else {
         this.searchCO();
-        console.log('init search');
       }
+    },
+
+    /**
+     * Set columns for table
+     * @param {Array} columns
+     * @returns
+     */
+    setColumns(columns) {
+      if (columns.length === 0) return;
+      if (this.filteredColumns === 1) {
+        return;
+      }
+      this.selectedColumns = columns;
+    },
+
+    /**
+     * Init columns selection
+     */
+    initSelectedColumns() {
+      this.selectedColumns = Object.entries(this.schema).map(([key, value], item) => {
+        return key;
+      });
+    },
+
+    /**
+     * Reset columns selections
+     */
+    resetColumns() {
+      this.selectedColumns = Object.entries(this.schema).map(([key, value], item) => {
+        return key;
+      });
     },
 
     /**
@@ -341,4 +427,4 @@ const RecordTable = {
   },
 };
 
-export default RecordTable;
+export default ObjectRecordTable;

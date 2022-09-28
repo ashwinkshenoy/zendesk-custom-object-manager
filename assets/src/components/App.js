@@ -2,18 +2,29 @@ const template = `
 <div class="u-ph-lg">
   <div>
     <div>
-      <type-selection></type-selection>
-
-      <!--Loading Objects-->
-      <div class="u-ta-center" v-if="objectState === 'Loading'">
+      <!--Loading Objects / Relationships-->
+      <div class="page-center" v-if="objectState === 'Loading' || relationState === 'Loading'">
         <vs-loader class="u-p" center></vs-loader>
       </div>
 
+      <div
+        class="page-center"
+        v-else-if="objectState === 'NoObjects' && relationState === 'NoRelationTypes'">
+        <img src="./images/IconNotFound.svg" alt="No Records" class="empty-image">
+        <div class="u-bold">No Custom Object Created</div>
+        <p class="u-mt-xs">When you create an Object/Relationship, you'll see it here.</p>
+        <a href="https://www.buymeacoffee.com/ashwinshenoy" target="_blank" class="u-mt">
+          <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="width: 140px">
+        </a>
+      </div>
+
       <template v-else>
+        <type-selection></type-selection>
+
         <h2 class="type-title">Object Records</h2>
         <!--No Objects-->
         <div class="u-ta-center" v-if="objectState === 'NoObjects'">
-          <img src="../images/IconNotFound.svg" alt="No Records" class="empty-image">
+          <img src="./images/IconNotFound.svg" alt="No Records" class="empty-image">
           <div>No Objects Found</div>
         </div>
 
@@ -27,7 +38,7 @@ const template = `
         <h2 class="type-title">Relationship Records</h2>
         <!--No Relationships-->
         <div class="u-ta-center" v-if="relationState === 'NoRelationTypes'">
-          <img src="../images/IconNotFound.svg" alt="No Records" class="empty-image">
+          <img src="./images/IconNotFound.svg" alt="No Records" class="empty-image">
           <div>No Relationships Found</div>
         </div>
         
@@ -36,6 +47,13 @@ const template = `
           <relationship-record-search></relationship-record-search>
           <relationship-record-table :key="'relation_'+relationUniqueKey"></relationship-record-table>
         </template>
+
+        <!--Buy Coffee-->
+        <div class="u-mt-xxl u-ta-center">
+          <a href="https://www.buymeacoffee.com/ashwinshenoy" target="_blank">
+            <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="width: 140px">
+          </a>
+        </div>
       </template>
     </div>
 
@@ -77,6 +95,20 @@ const App = {
       'relationState',
       'isRelationshipRecordForm',
     ]),
+  },
+
+  mounted() {
+    this.init();
+  },
+
+  methods: {
+    ...Vuex.mapActions(['getObjectRecords', 'getObjectTypes', 'getRelationshipTypes']),
+
+    async init() {
+      await this.getObjectTypes();
+      await this.getRelationshipTypes();
+      // this.getObjectRecords();
+    },
   },
 };
 

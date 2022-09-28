@@ -62,7 +62,7 @@ const template = `
 import GardenIcon from '../Common/GardenIcon.js';
 import ZDClient from '../../services/ZDClient.js';
 
-const RecordForm = {
+const RelationshipRecordForm = {
   template,
 
   components: {
@@ -162,4 +162,4 @@ const RecordForm = {
   },
 };
 
-export default RecordForm;
+export default RelationshipRecordForm;

@@ -104,7 +104,7 @@ const template = `
 import ActionItem from '../Common/ActionItem.js';
 import ZDClient from '../../services/ZDClient.js';
 
-const RecordTable = {
+const RelationshipRecordTable = {
   template,
 
   components: {
@@ -245,4 +245,4 @@ const RecordTable = {
   },
 };
 
-export default RecordTable;
+export default RelationshipRecordTable;

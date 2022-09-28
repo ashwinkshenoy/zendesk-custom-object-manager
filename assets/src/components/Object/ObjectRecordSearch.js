@@ -21,12 +21,14 @@ const template = `
 `;
 
 import GardenIcon from '../Common/GardenIcon.js';
+import Dropdown from '../Common/Dropdown.js';
 
-const RecordSearch = {
+const ObjectRecordSearch = {
   template,
 
   components: {
     GardenIcon,
+    Dropdown,
   },
 
   data() {
@@ -87,4 +89,4 @@ const RecordSearch = {
   },
 };
 
-export default RecordSearch;
+export default ObjectRecordSearch;

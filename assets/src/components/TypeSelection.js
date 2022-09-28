@@ -29,7 +29,7 @@ const template = `
 
 import GardenIcon from './Common/GardenIcon.js';
 
-const RecordSearch = {
+const TypeSelection = {
   template,
 
   components: {
@@ -87,9 +87,7 @@ const RecordSearch = {
       'getRelationshipRecords',
     ]),
 
-    async init() {
-      await this.getObjectTypes();
-      await this.getRelationshipTypes();
+    init() {
       this.objectType = this.selectedObjectType;
       this.relationType = this.selectedRelationType;
       // this.getObjectRecords();
@@ -135,4 +133,4 @@ const RecordSearch = {
   },
 };
 
-export default RecordSearch;
+export default TypeSelection;

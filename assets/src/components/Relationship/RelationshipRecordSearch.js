@@ -22,7 +22,7 @@ const template = `
 </div>
 `;
 
-const RecordSearch = {
+const RelationshipRecordSearch = {
   template,
 
   methods: {
@@ -39,4 +39,4 @@ const RecordSearch = {
   },
 };
 
-export default RecordSearch;
+export default RelationshipRecordSearch;

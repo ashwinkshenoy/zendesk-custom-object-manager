@@ -50,3 +50,9 @@ Licensed under the [`MIT License`](LICENSE).
 <br />
 Built with ❤️ by
 <a href="https://twitter.com/ashwinkshenoy">Ashwin Shenoy</a>
+
+<br />
+
+<a href="https://www.buymeacoffee.com/ashwinshenoy" target="_blank" class="u-mt">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="width: 140px">
+</a>
