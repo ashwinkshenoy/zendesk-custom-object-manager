@@ -82,19 +82,19 @@ const template = `
     </thead>
     <tbody>
       <tr v-if="objectTableState==='Loading'">
-        <td :colspan="schemaLength+2" class="u-ta-center">
+        <td :colspan="filteredColumns.length+2" class="u-ta-center">
           <vs-loader class="u-p" center></vs-loader>
         </td>
       </tr>
 
       <tr v-if="objectTableState==='NoData'">
-        <td :colspan="schemaLength+2" class="u-ta-center u-p">
+        <td :colspan="filteredColumns.length+2" class="u-ta-center u-p">
           <div>No Records Found</div>
         </td>
       </tr>
 
       <tr v-if="objectTableState==='ApiError'">
-        <td :colspan="schemaLength+2" class="u-ta-center u-p">
+        <td :colspan="filteredColumns.length+2" class="u-ta-center u-p">
           API Error Occured
         </td>
       </tr>
@@ -193,14 +193,6 @@ const ObjectRecordTable = {
       'searchText',
       'selectedObjectType',
     ]),
-
-    /**
-     * Get Schema Length
-     * @returns {Number}
-     */
-    schemaLength() {
-      return Object.keys(this.schema).length;
-    },
 
     filteredColumns() {
       if (this.selectedColumns.length > 0) {
