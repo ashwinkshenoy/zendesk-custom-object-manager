@@ -59,4 +59,4 @@ Licensed under the [`MIT License`](LICENSE).
   </a>
 </p>
 
-Feel free to explore and if you like it, hit the star button ⭐️ ❤️
+Feel free to explore and if you like it, hit the star button/Buy me a coffee ⭐ ❤️
