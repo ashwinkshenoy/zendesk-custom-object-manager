@@ -201,7 +201,7 @@ const ObjectRecordForm = {
         this.setState({ key: 'objectUniqueKey', value: this.objectUniqueKey + 1 });
         this.closeForm();
       } catch (error) {
-        ZDClient.notify('error', error);
+        ZDClient.notify('error', error?.responseJSON?.errors?.[0]?.detail || 'Error Occurred!');
       } finally {
         this.isLoading = false;
       }
