@@ -371,7 +371,7 @@ const ObjectRecordTable = {
         await ZDClient.customObject().delete(currentItem.id);
         ZDClient.notify('notice', 'Deleted Record');
       } catch (error) {
-        ZDClient.notify('error', error);
+        ZDClient.notify('error', error?.responseJSON?.errors?.[0]?.detail || 'Error Occurred!');
       } finally {
         this.closeModal('deleteModal');
         this.setState({
@@ -406,7 +406,7 @@ const ObjectRecordTable = {
         }
         ZDClient.notify('notice', 'Record Cloned');
       } catch (error) {
-        ZDClient.notify('error', error);
+        ZDClient.notify('error', error?.responseJSON?.errors?.[0]?.detail || 'Error Occurred!');
       } finally {
         this.closeModal('cloneModal');
         this.setState({
