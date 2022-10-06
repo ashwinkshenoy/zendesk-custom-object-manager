@@ -58,3 +58,5 @@ Licensed under the [`MIT License`](LICENSE).
     <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="margin-top: 20px;width: 140px">
   </a>
 </p>
+
+Feel free to explore and if you like it, hit the star button ⭐️ ❤️
