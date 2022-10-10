@@ -151,6 +151,14 @@ const RelationshipRecordForm = {
           return;
         }
         ZDClient.notify('notice', `Record ${this.recordAction === 'edit' ? 'Updated' : 'Created'}`);
+        this.setState({
+          key: 'relationCursor',
+          value: {
+            previous: null,
+            next: null,
+            current: null,
+          },
+        });
         this.setState({ key: 'relationUniqueKey', value: this.relationUniqueKey + 1 });
         this.closeForm();
       } catch (error) {

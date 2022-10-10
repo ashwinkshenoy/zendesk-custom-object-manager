@@ -198,6 +198,14 @@ const ObjectRecordForm = {
           return;
         }
         ZDClient.notify('notice', `Record ${this.recordAction === 'edit' ? 'Updated' : 'Created'}`);
+        this.setState({
+          key: 'objectCursor',
+          value: {
+            previous: null,
+            next: null,
+            current: null,
+          },
+        });
         this.setState({ key: 'objectUniqueKey', value: this.objectUniqueKey + 1 });
         this.closeForm();
       } catch (error) {
