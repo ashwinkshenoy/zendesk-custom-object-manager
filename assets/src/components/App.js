@@ -1,5 +1,5 @@
 const template = `
-<div class="u-ph-lg">
+<div class="u-ph">
   <div>
     <div>
       <!--Loading Objects / Relationships-->
@@ -21,35 +21,58 @@ const template = `
       <template v-else>
         <type-selection></type-selection>
 
-        <h2 class="type-title">Object Records</h2>
-        <!--No Objects-->
-        <div class="u-ta-center" v-if="objectState === 'NoObjects'">
-          <img src="./images/IconNotFound.svg" alt="No Records" class="empty-image">
-          <div>No Objects Found</div>
+        <!-- ----- Objects ----- -->
+        <div class="white-box">
+          <div class="row u-mt-xs">
+            <div class="col">
+              <h2 class="type-title">Object Records</h2>
+            </div>
+            <!--Create Record-->
+            <div class="col u-ta-right" v-if="objectState ===  'ObjectsFound'">
+              <vs-button fill size="small" @click="openObjectForm">Create Object</vs-button>
+            </div>
+          </div>
+
+          <!--No Objects-->
+          <div class="u-ta-center" v-if="objectState === 'NoObjects'">
+            <img src="./images/IconNotFound.svg" alt="No Records" class="empty-image">
+            <div>No Objects Found</div>
+          </div>
+
+          <!--Objects Found-->
+          <template v-if="objectState ===  'ObjectsFound'">
+            <object-record-search></object-record-search>
+            <object-record-table :key="objectUniqueKey"></object-record-table>
+          </template>
         </div>
 
-        <!--Objects Found-->
-        <template v-if="objectState ===  'ObjectsFound'">
-          <object-record-search></object-record-search>
-          <object-record-table :key="objectUniqueKey"></object-record-table>
-        </template>
 
-        <br><br>
-        <h2 class="type-title">Relationship Records</h2>
-        <!--No Relationships-->
-        <div class="u-ta-center" v-if="relationState === 'NoRelationTypes'">
-          <img src="./images/IconNotFound.svg" alt="No Records" class="empty-image">
-          <div>No Relationships Found</div>
+        <!-- ----- Relationship ----- -->
+        <div class="white-box">
+          <div class="row u-mt-xs">
+            <div class="col">
+              <h2 class="type-title">Relationship Records</h2>
+            </div>
+            <!--Create Record-->
+            <div class="col u-ta-right" v-if="relationState ===  'RelationTypesFound'">
+              <vs-button fill size="small" @click="openRelationshipForm">Create Relationship</vs-button>
+            </div>
+          </div>
+
+          <!--No Relationships-->
+          <div class="u-ta-center" v-if="relationState === 'NoRelationTypes'">
+            <img src="./images/IconNotFound.svg" alt="No Records" class="empty-image">
+            <div>No Relationships Found</div>
+          </div>
+          
+          <!--Relationship Records Found-->
+          <template v-if="relationState ===  'RelationTypesFound'">
+            <relationship-record-table :key="'relation_'+relationUniqueKey"></relationship-record-table>
+          </template>
         </div>
-        
-        <!--Relationship Records Found-->
-        <template v-if="relationState ===  'RelationTypesFound'">
-          <relationship-record-search></relationship-record-search>
-          <relationship-record-table :key="'relation_'+relationUniqueKey"></relationship-record-table>
-        </template>
 
         <!--Buy Coffee-->
-        <div class="u-mt-xxl u-ta-center">
+        <div class="u-mv-xxl u-ta-center">
           <a href="https://www.buymeacoffee.com/ashwinshenoy?utm_source=zd_custom_object" target="_blank">
             <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="width: 140px">
           </a>
@@ -61,15 +84,20 @@ const template = `
       <object-record-form v-if="isObjectRecordForm" :key="1"></object-record-form>
       <relationship-record-form v-if="isRelationshipRecordForm" :key="2"></relationship-record-form>
     </transition>
+    <transition name="sidebarOverly" mode="out-in">
+      <div
+        class="sidebar__overlay"
+        v-show="isObjectRecordForm || isRelationshipRecordForm"
+        @click="closeForm">
+      </div>
+    </transition>
   </div>
-  <br><br><br><br>
 </div>`;
 
 import TypeSelection from './TypeSelection.js';
 import ObjectRecordSearch from './Object/ObjectRecordSearch.js';
 import ObjectRecordTable from './Object/ObjectRecordTable.js';
 import ObjectRecordForm from './Object/ObjectRecordForm.js';
-import RelationshipRecordSearch from './Relationship/RelationshipRecordSearch.js';
 import RelationshipRecordTable from './Relationship/RelationshipRecordTable.js';
 import RelationshipRecordForm from './Relationship/RelationshipRecordForm.js';
 
@@ -81,7 +109,6 @@ const App = {
     ObjectRecordSearch,
     ObjectRecordTable,
     ObjectRecordForm,
-    RelationshipRecordSearch,
     RelationshipRecordTable,
     RelationshipRecordForm,
   },
@@ -102,12 +129,39 @@ const App = {
   },
 
   methods: {
-    ...Vuex.mapActions(['getObjectRecords', 'getObjectTypes', 'getRelationshipTypes']),
+    ...Vuex.mapActions(['setState', 'getObjectTypes', 'getRelationshipTypes']),
 
     async init() {
       await this.getObjectTypes();
       await this.getRelationshipTypes();
-      // this.getObjectRecords();
+    },
+
+    /**
+     * Open object form
+     */
+    openObjectForm() {
+      this.setState({ key: 'isObjectRecordForm', value: true });
+      this.setState({ key: 'recordAction', value: 'new' });
+      this.setState({ key: 'currentRecord', value: {} });
+    },
+
+    /**
+     * Open relationship form
+     */
+    openRelationshipForm() {
+      this.setState({ key: 'isRelationshipRecordForm', value: true });
+      this.setState({ key: 'recordAction', value: 'new' });
+      this.setState({ key: 'currentRecord', value: {} });
+    },
+
+    /**
+     * Close sidebar form
+     */
+    closeForm() {
+      this.setState({ key: 'isObjectRecordForm', value: false });
+      this.setState({ key: 'isRelationshipRecordForm', value: false });
+      this.setState({ key: 'currentRecord', value: {} });
+      this.setState({ key: 'recordAction', value: 'new' });
     },
   },
 };

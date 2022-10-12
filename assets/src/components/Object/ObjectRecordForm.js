@@ -1,12 +1,12 @@
 const template = `
 <div class="sidebar">
   <div class="sidebar__title-wrapper u-p">
-    <h3 class="sidebar__title">
+    <h3 class="type-title u-mb-xxs">
       <span v-if="recordAction === 'new'">Create Record</span>
       <span v-if="recordAction === 'edit'">Update Record</span>
     </h3>
     <div @click="closeForm">
-      <garden-icon icon="zd-close" name="Close" class="help-icon"></garden-icon>
+      <garden-icon icon="zd-close" name="Close" class="close-icon"></garden-icon>
     </div>
   </div>
 

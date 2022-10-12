@@ -81,7 +81,7 @@ const template = `
 
   <!--Pagination-->
   <template v-if="relationTableState === 'DataFound'">
-    <div class="u-ta-center u-mb" v-if="relationCursor.previous || relationCursor.next">
+    <div class="u-ta-center" v-if="relationCursor.previous || relationCursor.next">
       <vs-button
         size="small"
         class="u-mv u-mr-sm width-100"
@@ -146,13 +146,11 @@ const RelationshipRecordTable = {
      */
     formatDate(date) {
       if (!date) return date;
-      const today = new Date(date);
-      let dd = today.getDate();
-      const mm = today.getMonth() + 1;
-      const yyyy = today.getFullYear();
-      dd = dd < 10 ? `0${dd}` : dd;
-      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      return `${monthNames[mm - 1]} ${dd}, ${yyyy}`;
+      return new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+      });
     },
   },
 

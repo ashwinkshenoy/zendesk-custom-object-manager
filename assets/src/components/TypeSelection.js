@@ -1,8 +1,8 @@
 const template = `
-<div>
+<div class="white-box">
   
 <!--Object Type Selector-->
-  <div class="row u-mt">
+  <div class="row">
     <div class="col-3">
       <vs-select
         label="Select Object"
