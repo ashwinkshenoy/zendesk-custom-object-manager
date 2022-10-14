@@ -248,7 +248,7 @@ textarea {
   margin-bottom: 0;
 }
 
-.c-menu__item:last-child {
+.c-menu__item:only-child {
   border-radius: 10px;
 }
 
