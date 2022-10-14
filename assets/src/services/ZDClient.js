@@ -4,6 +4,9 @@ let APP_SETTINGS = {};
 const ZDClient = {
   events: {
     ON_APP_REGISTERED(cb) {
+      if (!CLIENT) {
+        window.location.href = '/';
+      }
       return CLIENT.on('app.registered', async data => {
         APP_SETTINGS = data.metadata.settings;
         return cb(data);
