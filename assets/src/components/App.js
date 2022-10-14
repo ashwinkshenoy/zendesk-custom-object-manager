@@ -27,10 +27,6 @@ const template = `
             <div class="col">
               <h2 class="type-title">Object Records</h2>
             </div>
-            <!--Create Record-->
-            <div class="col u-ta-right" v-if="objectState ===  'ObjectsFound'">
-              <vs-button fill size="small" @click="openObjectForm">Create Object</vs-button>
-            </div>
           </div>
 
           <!--No Objects-->
@@ -53,10 +49,6 @@ const template = `
             <div class="col">
               <h2 class="type-title">Relationship Records</h2>
             </div>
-            <!--Create Record-->
-            <div class="col u-ta-right" v-if="relationState ===  'RelationTypesFound'">
-              <vs-button fill size="small" @click="openRelationshipForm">Create Relationship</vs-button>
-            </div>
           </div>
 
           <!--No Relationships-->
@@ -67,6 +59,7 @@ const template = `
           
           <!--Relationship Records Found-->
           <template v-if="relationState ===  'RelationTypesFound'">
+          <relationship-record-search></relationship-record-search>
             <relationship-record-table :key="'relation_'+relationUniqueKey"></relationship-record-table>
           </template>
         </div>
@@ -98,6 +91,7 @@ import TypeSelection from './TypeSelection.js';
 import ObjectRecordSearch from './Object/ObjectRecordSearch.js';
 import ObjectRecordTable from './Object/ObjectRecordTable.js';
 import ObjectRecordForm from './Object/ObjectRecordForm.js';
+import RelationshipRecordSearch from './Relationship/RelationshipRecordSearch.js';
 import RelationshipRecordTable from './Relationship/RelationshipRecordTable.js';
 import RelationshipRecordForm from './Relationship/RelationshipRecordForm.js';
 
@@ -109,6 +103,7 @@ const App = {
     ObjectRecordSearch,
     ObjectRecordTable,
     ObjectRecordForm,
+    RelationshipRecordSearch,
     RelationshipRecordTable,
     RelationshipRecordForm,
   },
@@ -134,24 +129,6 @@ const App = {
     async init() {
       await this.getObjectTypes();
       await this.getRelationshipTypes();
-    },
-
-    /**
-     * Open object form
-     */
-    openObjectForm() {
-      this.setState({ key: 'isObjectRecordForm', value: true });
-      this.setState({ key: 'recordAction', value: 'new' });
-      this.setState({ key: 'currentRecord', value: {} });
-    },
-
-    /**
-     * Open relationship form
-     */
-    openRelationshipForm() {
-      this.setState({ key: 'isRelationshipRecordForm', value: true });
-      this.setState({ key: 'recordAction', value: 'new' });
-      this.setState({ key: 'currentRecord', value: {} });
     },
 
     /**

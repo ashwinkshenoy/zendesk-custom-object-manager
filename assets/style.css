@@ -49,6 +49,10 @@ hr {
   bottom: -9px;
 }
 
+.position-button-top {
+  margin-top: -45px;
+}
+
 /* Table */
 .c-table {
   font-size: 12.5px;

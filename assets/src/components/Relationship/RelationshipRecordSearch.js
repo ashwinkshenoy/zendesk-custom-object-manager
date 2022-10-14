@@ -2,7 +2,7 @@ const template = `
 <div>
   <div class="row u-mv">
     <!--Search-->
-    <div class="col-3">
+    <div class="col-12 col-sm-3">
       <!--<form class="col-3" @submit.prevent="searchRecord">
         <div class="search__form-element">
           <input type="text" placeholder="Search..." v-model="search" class="c-txt__input c-txt__input--sm">
@@ -16,7 +16,9 @@ const template = `
 
     <!--Create Record-->
     <div class="col u-ta-right">
-      <vs-button fill size="small" @click="openForm">Create Relationship</vs-button>
+      <div class="position-button-top">
+        <vs-button fill size="small" @click="openForm">Create Relationship</vs-button>
+      </div>
     </div>
   </div>
 </div>

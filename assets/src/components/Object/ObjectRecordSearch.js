@@ -11,6 +11,13 @@ const template = `
       </div>
       <a @click.prevent="resetSearch" class="clear-link" v-if="searchText">Clear</a>
     </form>
+
+    <!--Create Record-->
+    <div class="col u-ta-right">
+      <div class="position-button-top">
+        <vs-button fill size="small" @click="openForm">Create Record</vs-button>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -71,6 +78,15 @@ const ObjectRecordSearch = {
         },
       });
       this.getObjectRecords();
+    },
+
+    /**
+     * Open sidebar form
+     */
+    openForm() {
+      this.setState({ key: 'isObjectRecordForm', value: true });
+      this.setState({ key: 'recordAction', value: 'new' });
+      this.setState({ key: 'currentRecord', value: {} });
     },
   },
 };
