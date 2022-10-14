@@ -11,7 +11,7 @@
   "private": true,
   "location": {
     "support": {
-      "nav_bar": "assets/iframe.html"
+      "nav_bar": "https://zd-custom-object.netlify.app/assets/iframe.html"
     }
   },
   "parameters": [
