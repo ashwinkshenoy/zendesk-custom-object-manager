@@ -25,7 +25,7 @@ const template = `
               class="c-txt__input c-txt__input--sm"
               autocomplete="off"
               :id="column.key"
-              v-model="form[column.key]">
+              v-model.number="form[column.key]">
           </template>
           <template v-else>
             <textarea
