@@ -93,11 +93,13 @@ const ZDClient = {
      * @param {String} objectName
      * @param {Number} cursorUrl
      */
-    instance.read = (objectName, cursorUrl = null) => {
+    instance.read = (objectName, cursorUrl = null, count = null) => {
       return this.request(
         cursorUrl
           ? cursorUrl
-          : `/api/sunshine/objects/records?type=${objectName}&per_page=${this.app.settings.noOfRecords}&order=desc`,
+          : `/api/sunshine/objects/records?type=${objectName}&per_page=${
+              count || this.app.settings.noOfRecords
+            }&order=desc`,
         null,
         {
           method: 'GET',

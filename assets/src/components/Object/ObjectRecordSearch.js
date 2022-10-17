@@ -12,16 +12,17 @@ const template = `
       <a @click.prevent="resetSearch" class="clear-link" v-if="searchText">Clear</a>
     </form>
 
-    <!--Create Record-->
-    <div class="col u-ta-right">
-      <div class="position-button-top">
-        <vs-button fill size="small" @click="openForm">Create Record</vs-button>
-      </div>
+    
+    <div class="col u-ta-right position-button-top">
+      <object-download></object-download>
+      <!--Create Record-->
+      <vs-button fill size="small" @click="openForm">Create Record</vs-button>
     </div>
   </div>
 </div>
 `;
 
+import ObjectDownload from './ObjectDownload.js';
 import GardenIcon from '../Common/GardenIcon.js';
 import Dropdown from '../Common/Dropdown.js';
 
@@ -29,6 +30,7 @@ const ObjectRecordSearch = {
   template,
 
   components: {
+    ObjectDownload,
     GardenIcon,
     Dropdown,
   },
