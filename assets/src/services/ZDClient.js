@@ -1,5 +1,6 @@
 let CLIENT = {};
 let APP_SETTINGS = {};
+let SUB_DOMAIN;
 
 const ZDClient = {
   events: {
@@ -8,6 +9,7 @@ const ZDClient = {
         window.location.href = '/';
       }
       return CLIENT.on('app.registered', async data => {
+        SUB_DOMAIN = data.context.account.subdomain;
         APP_SETTINGS = data.metadata.settings;
         return cb(data);
       });
@@ -24,6 +26,10 @@ const ZDClient = {
   app: {
     get settings() {
       return APP_SETTINGS;
+    },
+
+    get domain() {
+      return SUB_DOMAIN;
     },
 
     /**
