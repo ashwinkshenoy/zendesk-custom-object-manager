@@ -130,7 +130,6 @@ const App = {
     async init() {
       await this.getObjectTypes();
       await this.getRelationshipTypes();
-      this.initAnalytics();
     },
 
     /**
@@ -141,14 +140,6 @@ const App = {
       this.setState({ key: 'isRelationshipRecordForm', value: false });
       this.setState({ key: 'currentRecord', value: {} });
       this.setState({ key: 'recordAction', value: 'new' });
-    },
-
-    initAnalytics() {
-      gtag('event', 'form_submit', {
-        event_category: 'Domain',
-        event_action: 'Load',
-        event_label: ZDClient.app.domain,
-      });
     },
   },
 };
