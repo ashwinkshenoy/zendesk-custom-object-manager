@@ -58,14 +58,6 @@ hr {
   font-size: 12.5px;
 }
 
-.table-responsive {
-  display: block;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding-bottom: 20px;
-  white-space: nowrap;
-}
-
 .c-table__row {
   border-left: solid 3px transparent;
 }

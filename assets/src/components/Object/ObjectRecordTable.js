@@ -45,8 +45,7 @@ const template = `
     </div>
   </vs-modal>
 
-  <table 
-    :class="['c-table u-mb-sm', {'table-responsive': filteredColumns.length > 15}]">
+  <table class="c-table u-mb-sm">
     <thead>
       <tr class="c-table__row c-table__row--header">
         <td class="c-table__row__cell">Created</td>
