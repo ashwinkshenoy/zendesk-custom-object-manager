@@ -64,10 +64,6 @@ hr {
   white-space: nowrap;
 }
 
-.table-responsive thead td {
-  max-width: 150px;
-}
-
 .c-table__row {
   border-left: solid 3px transparent;
 }
