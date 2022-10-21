@@ -5,9 +5,9 @@ let SUB_DOMAIN;
 const ZDClient = {
   events: {
     ON_APP_REGISTERED(cb) {
-      if (!CLIENT) {
-        window.location.href = '/';
-      }
+      // if (!CLIENT) {
+      //   window.location.href = '/';
+      // }
       return CLIENT.on('app.registered', async data => {
         SUB_DOMAIN = data.context.account.subdomain;
         APP_SETTINGS = data.metadata.settings;
