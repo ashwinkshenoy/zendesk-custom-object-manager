@@ -6,7 +6,7 @@ const ZDClient = {
   events: {
     ON_APP_REGISTERED(cb) {
       if (!CLIENT) {
-        window.location.href = '/';
+        window.location.href = '/zendesk-custom-object-manager/';
       }
       return CLIENT.on('app.registered', async data => {
         SUB_DOMAIN = data.context.account.subdomain;
