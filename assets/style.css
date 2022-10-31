@@ -52,7 +52,7 @@ hr {
 .position-button-top {
   margin-top: -45px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-end;
 }
 
