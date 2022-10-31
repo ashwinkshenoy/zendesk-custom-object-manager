@@ -37,6 +37,11 @@ const Store = new Vuex.Store({
     },
     relationSearchText: '',
     isRelationshipRecordForm: false,
+
+    order: {
+      object: 1,
+      relationship: 2,
+    },
   },
 
   mutations: {
@@ -71,6 +76,8 @@ const Store = new Vuex.Store({
     relationCursor: state => state.relationCursor,
     relationSearchText: state => state.relationSearchText,
     isRelationshipRecordForm: state => state.isRelationshipRecordForm,
+
+    order: state => state.order,
   },
 
   actions: {

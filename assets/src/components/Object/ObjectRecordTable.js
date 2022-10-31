@@ -45,85 +45,87 @@ const template = `
     </div>
   </vs-modal>
 
-  <table class="c-table u-mb-sm">
-    <thead>
-      <tr class="c-table__row c-table__row--header">
-        <td class="c-table__row__cell">Created</td>
-        <td
-          class="c-table__row__cell"
-          v-for="(name, index) in filteredColumns"
-          :key="index"
-          :data-index="index">
-          {{ name | filterName }}
-        </td>
-        <td class="c-table__row__cell u-ta-right">
-          <dropdown right offset="5, -10" class="table-column-selector">
-            <template v-slot:dropdown-trigger>
-              <garden-icon
-                icon="zd-cog"
-                name="settings"
-                class="u-fg-grey-600">
-              </garden-icon>
-            </template>
-            <template v-slot:dropdown-content>
-              <vs-multiselect
-                label="Select Columns"
-                :preselected="selectedColumns"
-                :options="filteredColumnOptions"
-                @change="setColumns"
-                is-compact
-                is-search>
-              </vs-multiselect>
-              <vs-button @click="resetColumns" size="small" class="u-mt-sm">Reset</vs-button>
-            </template>
-          </dropdown>
-        </td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-if="objectTableState==='Loading'">
-        <td :colspan="filteredColumns.length+2" class="u-ta-center">
-          <vs-loader class="u-p" center></vs-loader>
-        </td>
-      </tr>
-
-      <tr v-if="objectTableState==='NoData'">
-        <td :colspan="filteredColumns.length+2" class="u-ta-center u-p">
-          <div>No Records Found</div>
-        </td>
-      </tr>
-
-      <tr v-if="objectTableState==='ApiError'">
-        <td :colspan="filteredColumns.length+2" class="u-ta-center u-p">
-          API Error Occured
-        </td>
-      </tr>
-
-      <template v-if="objectTableState==='DataFound'">
-        <tr
-          :class="[
-            'c-table__row',
-            {'is-active': currentRecord.id === record.id},
-            {'is-disabled': record.attributes?.is_disabled}
-          ]"
-          v-for="record in objectRecords" 
-          :key="record.id">
-          <td class="c-table__row__cell">{{ record.created_at | formatDate }}</td>
-          <template v-for="(field, index) in filteredColumns">
-            <td class="c-table__row__cell" :key="index+'_record'">{{ record.attributes[field] || '---' }}</td>
-          </template>
-          <td class="c-table__row__cell action-cell">
-            <action-item
-              class="btn-svg-table"
-              :options="actionItemOptions"
-              :item="record"
-              @change="handleActionItemChange">
-            ></action-item>
+  <div :class="[{'table-responsive': filteredColumns.length > 15}]">
+    <table class="c-table u-mb-sm">
+      <thead>
+        <tr class="c-table__row c-table__row--header">
+          <td class="c-table__row__cell">Created</td>
+          <td
+            class="c-table__row__cell"
+            v-for="(name, index) in filteredColumns"
+            :key="index"
+            :data-index="index">
+            {{ name | filterName }}
+          </td>
+          <td class="c-table__row__cell u-ta-right">
+            <dropdown right offset="5, -10" class="table-column-selector">
+              <template v-slot:dropdown-trigger>
+                <garden-icon
+                  icon="zd-cog"
+                  name="settings"
+                  class="u-fg-grey-600">
+                </garden-icon>
+              </template>
+              <template v-slot:dropdown-content>
+                <vs-multiselect
+                  label="Select Columns"
+                  :preselected="selectedColumns"
+                  :options="filteredColumnOptions"
+                  @change="setColumns"
+                  is-compact
+                  is-search>
+                </vs-multiselect>
+                <vs-button @click="resetColumns" size="small" class="u-mt-sm">Reset</vs-button>
+              </template>
+            </dropdown>
           </td>
         </tr>
-      </template>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <tr v-if="objectTableState==='Loading'">
+          <td :colspan="filteredColumns.length+2" class="u-ta-center">
+            <vs-loader class="u-p" center></vs-loader>
+          </td>
+        </tr>
+
+        <tr v-if="objectTableState==='NoData'">
+          <td :colspan="filteredColumns.length+2" class="u-ta-center u-p">
+            <div>No Records Found</div>
+          </td>
+        </tr>
+
+        <tr v-if="objectTableState==='ApiError'">
+          <td :colspan="filteredColumns.length+2" class="u-ta-center u-p">
+            API Error Occured
+          </td>
+        </tr>
+
+        <template v-if="objectTableState==='DataFound'">
+          <tr
+            :class="[
+              'c-table__row',
+              {'is-active': currentRecord.id === record.id},
+              {'is-disabled': record.attributes?.is_disabled}
+            ]"
+            v-for="record in objectRecords" 
+            :key="record.id">
+            <td class="c-table__row__cell">{{ record.created_at | formatDate }}</td>
+            <template v-for="(field, index) in filteredColumns">
+              <td class="c-table__row__cell" :key="index+'_record'">{{ record.attributes[field] || '---' }}</td>
+            </template>
+            <td class="c-table__row__cell action-cell">
+              <action-item
+                class="btn-svg-table"
+                :options="actionItemOptions"
+                :item="record"
+                @change="handleActionItemChange">
+              ></action-item>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
 
   <!--Pagination-->
   <template v-if="objectTableState === 'DataFound'">

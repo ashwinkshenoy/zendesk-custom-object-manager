@@ -1,7 +1,11 @@
 const template = `
 <span v-if="objectTableState==='DataFound'">
   <!--Download CSV-->
-  <vs-button size="small" @click="processCsv" class="u-mr-sm">Download as CSV</vs-button>
+  <vs-button size="small" @click="processCsv" class="u-mr-sm">
+    <garden-icon icon="zd-download" class="download-icon">
+    </garden-icon>
+    Download as CSV
+  </vs-button>
 
    <!--Delete Record Modal-->
    <vs-modal
@@ -20,10 +24,15 @@ const template = `
 </span>
 `;
 
+import GardenIcon from '../Common/GardenIcon.js';
 import ZDClient from '../../services/ZDClient.js';
 
 const ObjectRecordSearch = {
   template,
+
+  components: {
+    GardenIcon,
+  },
 
   computed: {
     ...Vuex.mapGetters(['selectedObjectType', 'schema', 'objectTableState']),

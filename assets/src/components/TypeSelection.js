@@ -2,8 +2,8 @@ const template = `
 <div class="white-box">
   
 <!--Object Type Selector-->
-  <div class="row">
-    <div class="col-3">
+  <div class="row align-items-end">
+    <div class="col-3" :style="{order: order.object}">
       <vs-select
         label="Select Object"
         :options="filteredObjects"
@@ -13,7 +13,7 @@ const template = `
         is-search>
       </vs-select>
     </div>
-    <div class="col-3">
+    <div class="col-3" :style="{order: order.relationship}">
       <vs-select
         label="Select Relationhip"
         :options="filteredRelations"
@@ -22,6 +22,15 @@ const template = `
         is-compact
         is-search>
       </vs-select>
+    </div>
+    <div class="col u-ta-right" style="order: 3">
+      <vs-button variant="light" size="small" @click="changeOrder" fill>
+        <garden-icon
+          icon="zd-arrow-up-down"
+          name="Re-order Objects and Relationships"
+          class="u-fg-grey-600">
+        </garden-icon>
+      </vs-button>
     </div>
   </div>
 </div>
@@ -44,7 +53,14 @@ const TypeSelection = {
   },
 
   computed: {
-    ...Vuex.mapGetters(['searchText', 'objectTypes', 'selectedObjectType', 'relationTypes', 'selectedRelationType']),
+    ...Vuex.mapGetters([
+      'searchText',
+      'objectTypes',
+      'selectedObjectType',
+      'relationTypes',
+      'selectedRelationType',
+      'order',
+    ]),
 
     /**
      * Create Array from objectTypes with label/value
@@ -130,6 +146,17 @@ const TypeSelection = {
       });
       this.setState({ key: 'selectedRelationType', value });
       this.getRelationshipRecords();
+    },
+
+    /**
+     * Change/Toggle objects n relationship order
+     */
+    changeOrder() {
+      const order = {
+        object: this.order.object === 1 ? 2 : 1,
+        relationship: this.order.relationship === 1 ? 2 : 1,
+      };
+      this.setState({ key: 'order', value: order });
     },
   },
 };

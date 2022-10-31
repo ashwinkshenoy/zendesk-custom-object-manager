@@ -2,7 +2,8 @@ const template = `
 <div class="u-ta-right">
   <button 
     class="btn-svg u-cursor-pointer"
-    @click="isMenuHidden = !isMenuHidden"
+    @click="openMenu"
+    ref="actionButton"
     >
     <garden-icon 
       icon="zd-overflow-vertical-fill" 
@@ -11,10 +12,10 @@ const template = `
     ></garden-icon>
   </button>
 
-  <div class="action-item__wrapper">
+  <div :class="['action-item__wrapper', classes]" v-if="!isMenuHidden">
     <ul 
       class="c-menu c-menu--down is-open"
-      :aria-hidden="isMenuHidden">
+      aria-hidden="false">
       <li 
         v-for="(option, index) in options" 
         :key="index" 
@@ -40,6 +41,10 @@ const ActionItem = {
     item: {
       type: [Array, Object],
     },
+    top: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   components: {
@@ -52,6 +57,12 @@ const ActionItem = {
     };
   },
 
+  computed: {
+    classes() {
+      return [{ 'vs-action-item--top': this.top }];
+    },
+  },
+
   mounted() {
     window.addEventListener('click', e => {
       if (!this.$el.contains(e.target)) {
@@ -61,6 +72,10 @@ const ActionItem = {
   },
 
   methods: {
+    openMenu() {
+      this.isMenuHidden = !this.isMenuHidden;
+    },
+
     change(option) {
       this.isMenuHidden = true;
       this.$emit('change', option, this.item);

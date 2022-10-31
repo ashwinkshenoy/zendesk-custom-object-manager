@@ -51,9 +51,33 @@ hr {
 
 .position-button-top {
   margin-top: -45px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.flex-order {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Table */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table-responsive .c-table thead .c-table__row__cell {
+  width: 150px;
+}
+
+.table-responsive .c-table thead .c-table__row__cell:first-child {
+  width: 105px;
+}
+
+.table-responsive .c-table thead .c-table__row__cell:last-child {
+  width: 50px;
+}
+
 .c-table {
   font-size: 12.5px;
 }
@@ -178,6 +202,12 @@ hr {
   width: 25px;
   height: 25px;
   cursor: pointer;
+}
+
+.download-icon {
+  color: #1f73b7;
+  margin-right: 6px;
+  margin-top: 2px;
 }
 
 .sidebar__helper {
