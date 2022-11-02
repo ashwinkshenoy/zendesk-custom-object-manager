@@ -17,7 +17,7 @@ const template = `
     <!--Create Record-->
     <div class="col u-ta-right">
       <div class="position-button-top">
-        <vs-button fill size="small" @click="openForm">Create Relationship</vs-button>
+        <vs-button fill size="small" @click="openForm" data-name="ZD: Create Relationship">Create Relationship</vs-button>
       </div>
     </div>
   </div>

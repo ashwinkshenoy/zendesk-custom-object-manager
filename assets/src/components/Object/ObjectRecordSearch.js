@@ -5,18 +5,18 @@ const template = `
     <form class="col-3" @submit.prevent="searchRecord">
       <div class="search__form-element">
         <input type="text" placeholder="Search..." v-model="search" class="c-txt__input c-txt__input--sm">
-        <vs-button fill size="small" type="submit">
+        <vs-button fill size="small" type="submit" data-name="ZD: Search">
           <garden-icon icon="zd-search" name="search" class="search-btn"></garden-icon>
         </vs-button>
       </div>
-      <a @click.prevent="resetSearch" class="clear-link" v-if="searchText">Clear</a>
+      <a @click.prevent="resetSearch" class="clear-link" v-if="searchText" data-name="ZD: Clear Search">Clear</a>
     </form>
 
     
     <div class="col u-ta-right position-button-top">
       <object-download></object-download>
       <!--Create Record-->
-      <vs-button fill size="small" @click="openForm">Create Record</vs-button>
+      <vs-button fill size="small" @click="openForm" data-name="ZD: Create Record">Create Record</vs-button>
     </div>
   </div>
 </div>

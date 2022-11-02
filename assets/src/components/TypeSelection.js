@@ -24,7 +24,7 @@ const template = `
       </vs-select>
     </div>
     <div class="col u-ta-right" style="order: 3">
-      <vs-button variant="light" size="small" @click="changeOrder" fill>
+      <vs-button variant="light" size="small" @click="changeOrder" fill data-name="ZD: Reorder">
         <garden-icon
           icon="zd-arrow-up-down"
           name="Re-order Objects and Relationships"

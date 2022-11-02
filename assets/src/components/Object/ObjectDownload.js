@@ -1,7 +1,7 @@
 const template = `
 <span v-if="objectTableState==='DataFound'">
   <!--Download CSV-->
-  <vs-button size="small" @click="processCsv" class="u-mr-sm">
+  <vs-button size="small" @click="processCsv" class="u-mr-sm" data-name="ZD: Download CSV">
     <garden-icon icon="zd-download" class="download-icon">
     </garden-icon>
     Download as CSV
