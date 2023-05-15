@@ -287,7 +287,6 @@ const ObjectRecordTable = {
      * Init columns selection
      */
     initSelectedColumns() {
-      console.log('mounted');
       if (this.selectedColumns.length > 0) return;
       const columns = Object.entries(this.schema).map(([key, value], item) => {
         return key;

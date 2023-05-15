@@ -15,6 +15,7 @@ const template = `
     
     <div class="col u-ta-right position-button-top">
       <object-download></object-download>
+      <object-delete></object-delete>
       <!--Create Record-->
       <vs-button fill size="small" @click="openForm" data-name="ZD: Create Record">Create Record</vs-button>
     </div>
@@ -23,6 +24,7 @@ const template = `
 `;
 
 import ObjectDownload from './ObjectDownload.js';
+import ObjectDelete from './ObjectDelete.js';
 import GardenIcon from '../Common/GardenIcon.js';
 import Dropdown from '../Common/Dropdown.js';
 
@@ -31,6 +33,7 @@ const ObjectRecordSearch = {
 
   components: {
     ObjectDownload,
+    ObjectDelete,
     GardenIcon,
     Dropdown,
   },

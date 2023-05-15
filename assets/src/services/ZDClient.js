@@ -202,6 +202,27 @@ const ZDClient = {
       );
     };
 
+    instance.createJob = (records, type, action) => {
+      const requestData = {
+        type: type,
+        action: action,
+        data: records,
+      };
+      return this.request('/api/sunshine/jobs', JSON.stringify(requestData), {
+        method: 'POST',
+      });
+    };
+
+    instance.getJobStatus = id => {
+      return this.request(
+        `/api/sunshine/jobs/${id}`,
+        {},
+        {
+          method: 'GET',
+        },
+      );
+    };
+
     return instance;
   },
 };

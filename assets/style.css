@@ -210,6 +210,12 @@ hr {
   margin-top: 2px;
 }
 
+.delete-icon {
+  color: #cc3340;
+  margin-right: 6px;
+  margin-top: 2px;
+}
+
 .sidebar__helper {
   background-color: rgba(121, 134, 216, 0.1);
   margin-top: -15px;
@@ -397,3 +403,12 @@ textarea {
   text-align: left;
   padding: 20px 25px;
 }
+
+/* Progress bar */
+.progressbar {
+  height: 22px;
+  display: block;
+  width: 80%;
+  margin: 0 auto 20px;
+}
+/* Progress bar end */
