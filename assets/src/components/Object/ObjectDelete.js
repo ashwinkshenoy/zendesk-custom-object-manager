@@ -79,6 +79,9 @@ const ObjectRecordSearch = {
      * Open delete confirm dialog
      */
     confirmDelete() {
+      this.completion = 0;
+      this.totalProcessed = 0;
+      this.totalRecordsToProcess = 0;
       this.$refs['deleteModal'].open();
     },
 
