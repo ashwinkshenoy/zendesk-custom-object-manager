@@ -62,7 +62,7 @@ const ObjectRecordSearch = {
      */
     async paginatedFetch(selectedObjectType, cursor = null, previousResponse = []) {
       try {
-        const response = await ZDClient.customObject().read(this.selectedObjectType, cursor, 100);
+        const response = await ZDClient.customObject().read(this.selectedObjectType, cursor, 1000);
         const data = [...previousResponse, ...response.data];
         if (!!response.links.next) {
           return await this.paginatedFetch(selectedObjectType, response.links.next, data);
