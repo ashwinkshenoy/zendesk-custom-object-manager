@@ -60,7 +60,7 @@ const template = `
             
             <!--Relationship Records Found-->
             <template v-if="relationState ===  'RelationTypesFound'">
-            <relationship-record-search></relationship-record-search>
+              <relationship-record-search></relationship-record-search>
               <relationship-record-table :key="'relation_'+relationUniqueKey"></relationship-record-table>
             </template>
           </div>
@@ -96,7 +96,7 @@ import ObjectRecordForm from './Object/ObjectRecordForm.js';
 import RelationshipRecordSearch from './Relationship/RelationshipRecordSearch.js';
 import RelationshipRecordTable from './Relationship/RelationshipRecordTable.js';
 import RelationshipRecordForm from './Relationship/RelationshipRecordForm.js';
-import ZDClient from '../services/ZDClient.js';
+// import ZDClient from '../services/ZDClient.js';
 
 const App = {
   template,

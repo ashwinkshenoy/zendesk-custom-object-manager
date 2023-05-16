@@ -17,6 +17,7 @@ const template = `
     <!--Create Record-->
     <div class="col u-ta-right">
       <div class="position-button-top">
+        <relationship-delete></relationship-delete>
         <vs-button fill size="small" @click="openForm" data-name="ZD: Create Relationship">Create Relationship</vs-button>
       </div>
     </div>
@@ -24,8 +25,14 @@ const template = `
 </div>
 `;
 
+import RelationshipDelete from './RelationshipDelete.js';
+
 const RelationshipRecordSearch = {
   template,
+
+  components: {
+    RelationshipDelete,
+  },
 
   methods: {
     ...Vuex.mapActions(['setState', 'searchRelationshipRecords', 'getRelationshipRecords']),

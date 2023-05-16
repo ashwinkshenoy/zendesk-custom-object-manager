@@ -1,7 +1,7 @@
 const template = `
-<span v-if="objectTableState==='DataFound'">
+<span v-if="relationTableState==='DataFound'">
   <!--Delete All Records-->
-  <vs-button size="small" variant="danger" @click="confirmDelete" class="u-mr-sm" data-name="ZD: Delete All Records">
+  <vs-button size="small" variant="danger" @click="confirmDelete" class="u-mr-sm" data-name="ZD: Delete All Relationships">
     <garden-icon icon="zd-close" class="delete-icon">
     </garden-icon>
     Delete All Records
@@ -52,7 +52,7 @@ const template = `
 import GardenIcon from '../Common/GardenIcon.js';
 import ZDClient from '../../services/ZDClient.js';
 
-const ObjectDelete = {
+const RelationshipDelete = {
   template,
 
   components: {
@@ -69,7 +69,7 @@ const ObjectDelete = {
   },
 
   computed: {
-    ...Vuex.mapGetters(['selectedObjectType', 'schema', 'objectTableState', 'objectUniqueKey']),
+    ...Vuex.mapGetters(['selectedRelationType', 'relationTableState', 'relationUniqueKey']),
   },
 
   methods: {
@@ -96,7 +96,7 @@ const ObjectDelete = {
     async deleteAllRecords() {
       this.$refs['deleteModal'].close();
       this.$refs['deletingModal'].open();
-      this.records = await this.paginatedFetch(this.selectedObjectType);
+      this.records = await this.paginatedFetch(this.selectedRelationType);
       console.log(this.records);
       await this.createDeleteJob();
     },
@@ -110,7 +110,7 @@ const ObjectDelete = {
      */
     async paginatedFetch(selectedObjectType, cursor = null, previousResponse = []) {
       try {
-        const response = await ZDClient.customObject().read(this.selectedObjectType, cursor, 1000);
+        const response = await ZDClient.customObject().relationRecords(this.selectedRelationType, cursor, 1000);
         const data = [...previousResponse, ...response.data];
         if (!!response.links.next) {
           return await this.paginatedFetch(selectedObjectType, response.links.next, data);
@@ -154,13 +154,13 @@ const ObjectDelete = {
           batchOfBatches.push([...newBatch]);
         }
 
-        console.log('Batch Of Batches:', batchOfBatches);
+        console.log('Batch Of Batches: ', batchOfBatches);
       }
 
       if (batchOfBatches.length > 0) {
         const createJob = await ZDClient.customObject().createJob(
           batchOfBatches[currentBatchIndex],
-          'resources',
+          'relationships',
           'delete',
         );
         console.log('Create Job:', createJob);
@@ -194,14 +194,14 @@ const ObjectDelete = {
     resetTable() {
       this.$refs['deletingModal'].close();
       this.setState({
-        key: 'objectCursor',
+        key: 'relationCursor',
         value: {
           previous: null,
           next: null,
           current: null,
         },
       });
-      this.setState({ key: 'objectUniqueKey', value: this.objectUniqueKey + 1 });
+      this.setState({ key: 'relationUniqueKey', value: this.relationUniqueKey + 1 });
     },
 
     /**
@@ -214,4 +214,4 @@ const ObjectDelete = {
   },
 };
 
-export default ObjectDelete;
+export default RelationshipDelete;

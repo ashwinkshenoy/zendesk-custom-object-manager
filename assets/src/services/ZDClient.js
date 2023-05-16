@@ -166,11 +166,13 @@ const ZDClient = {
      * API call to get relationship types
      * @param {Object} payload
      */
-    instance.relationRecords = (relationshipName, cursorUrl) => {
+    instance.relationRecords = (relationshipName, cursorUrl = null, count = null) => {
       return this.request(
         cursorUrl
           ? cursorUrl
-          : `/api/sunshine/relationships/records?type=${relationshipName}&per_page=${this.app.settings.noOfRecords}&order=desc`,
+          : `/api/sunshine/relationships/records?type=${relationshipName}&per_page=${
+              count || this.app.settings.noOfRecords
+            }&order=desc`,
         {},
         {
           method: 'GET',
